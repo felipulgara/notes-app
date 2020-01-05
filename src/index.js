@@ -6,6 +6,7 @@ const session = require("express-session");
 const indexRoutes = require("./routes/index");
 const usersRoutes = require("./routes/users");
 const notesRoutes = require("./routes/notes");
+const flash = require("connect-flash");
 
 // Initializations
 const app = express();
@@ -23,6 +24,7 @@ app.engine(
     extname: ".hbs"
   })
 );
+app.use(flash());
 app.set("view engine", ".hbs");
 
 // Middlewares
@@ -37,6 +39,11 @@ app.use(
 );
 
 // Global variables
+app.use((req, res, next) => {
+  res.locals.success_msg = req.flash("success_msg");
+  res.locals.error_msg = req.flash("error_msg");
+  next();
+});
 
 // Routes
 app.use("/", indexRoutes);
