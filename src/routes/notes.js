@@ -52,4 +52,10 @@ router.put("/edit-note/:id", async (req, res) => {
   res.redirect("/notes/notes");
 });
 
+router.delete("/notes/delete/:id", async (req, res) => {
+  const { id } = req.params;
+  await Note.findByIdAndDelete(id);
+  res.redirect("/notes/notes");
+});
+
 module.exports = router;
